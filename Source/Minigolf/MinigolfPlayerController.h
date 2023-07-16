@@ -47,4 +47,5 @@ protected:
 
 private:
     bool isHoldingLaunch = false;
+    FVector2D mousePos;
 };
