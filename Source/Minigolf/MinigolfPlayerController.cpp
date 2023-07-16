@@ -7,6 +7,7 @@
 #include "Engine/World.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "GolfBallPawn.h"
 
 AMinigolfPlayerController::AMinigolfPlayerController()
 {
@@ -46,15 +47,22 @@ void AMinigolfPlayerController::OnLaunchBallPressed()
 
 void AMinigolfPlayerController::OnLaunchBallReleased()
 {
+    AGolfBallPawn *pawn = GetPawn<AGolfBallPawn>();
+
+    if (pawn != nullptr)
+        pawn->Launch(mousePos * 1000);
+
     GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Launch Released!"));
+
     isHoldingLaunch = false;
+    mousePos = FVector2D(0);
 }
 
 void AMinigolfPlayerController::OnSetBallAngle(const FInputActionValue &value)
 {
     if (isHoldingLaunch)
     {
-        const FVector2D mousePos = value.Get<FVector2D>();
+        mousePos = value.Get<FVector2D>();
         GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Mouse Position: " + mousePos.ToString()));
     }
 }
