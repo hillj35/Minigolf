@@ -9,16 +9,20 @@ AMinigolfGameMode::AMinigolfGameMode()
     PlayerControllerClass = AMinigolfPlayerController::StaticClass();
 
     // set default pawn class to our Blueprinted character
-    static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/Blueprints/BP_GolfBallPawn"));
-    if (PlayerPawnBPClass.Class != nullptr)
+    if (PlayerPawnBPClass != nullptr)
     {
-        DefaultPawnClass = PlayerPawnBPClass.Class;
+        DefaultPawnClass = PlayerPawnBPClass;
     }
 
     // set default controller to our Blueprinted controller
-    static ConstructorHelpers::FClassFinder<APlayerController> PlayerControllerBPClass(TEXT("/Game/Blueprints/BP_MinigolfPlayerController"));
-    if (PlayerControllerBPClass.Class != NULL)
+    if (PlayerControllerBPClass != NULL)
     {
-        PlayerControllerClass = PlayerControllerBPClass.Class;
+        PlayerControllerClass = PlayerControllerBPClass;
+    }
+
+    // set HUD class
+    if (GolfHUDBPClass != nullptr)
+    {
+        HUDClass = GolfHUDBPClass;
     }
 }
