@@ -1,5 +1,3 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -9,11 +7,8 @@
 UCLASS(minimalapi)
 class AMinigolfGameMode : public AGameModeBase
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	AMinigolfGameMode();
+    AMinigolfGameMode();
 };
-
-
-
