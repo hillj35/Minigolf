@@ -1,5 +1,4 @@
 #include "MinigolfPlayerController.h"
-#include "MinigolfPlayerState.h"
 #include "GameFramework/Pawn.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
 #include "NiagaraSystem.h"
@@ -18,6 +17,8 @@ void AMinigolfPlayerController::BeginPlay()
 {
     // Call the base class
     Super::BeginPlay();
+
+    playerState = GetPlayerState<AMinigolfPlayerState>();
 
     // Add Input Mapping Context
     if (UEnhancedInputLocalPlayerSubsystem *Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
@@ -42,25 +43,33 @@ void AMinigolfPlayerController::SetupInputComponent()
 
 void AMinigolfPlayerController::OnLaunchBallPressed()
 {
-    GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Launch Pressed!"));
-    isHoldingLaunch = true;
+    if (!playerState->GetIsMoving())
+    {
+        GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Launch Pressed!"));
+        isHoldingLaunch = true;
+    }
 }
 
 void AMinigolfPlayerController::OnLaunchBallReleased()
 {
-    AGolfBallPawn *pawn = GetPawn<AGolfBallPawn>();
-    AMinigolfPlayerState* state = GetPlayerState<AMinigolfPlayerState>();
+    if (!playerState->GetIsMoving())
+    {
+        AGolfBallPawn* pawn = GetPawn<AGolfBallPawn>();
 
-    if (pawn != nullptr)
-        pawn->Launch(mousePos * 1000);
+        if (pawn != nullptr)
+        {
+            FVector2D swappedPos = FVector2D(mousePos.Y, mousePos.X);
+            pawn->Launch(swappedPos * 1000);
+        }
 
-    if (state != nullptr)
-        state->AddStroke();
+        if (playerState != nullptr)
+            playerState->AddStroke();
 
-    GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Launch Released!"));
+        GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Launch Released!"));
 
-    isHoldingLaunch = false;
-    mousePos = FVector2D(0);
+        isHoldingLaunch = false;
+        mousePos = FVector2D(0);
+    }
 }
 
 void AMinigolfPlayerController::OnSetBallAngle(const FInputActionValue &value)

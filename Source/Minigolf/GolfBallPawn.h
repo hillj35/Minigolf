@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "MinigolfPlayerState.h"
 #include "GolfBallPawn.generated.h"
 
 UCLASS()
@@ -28,4 +29,5 @@ public:
 
 private:
     UStaticMeshComponent *mesh;
+    AMinigolfPlayerState *playerState;
 };

@@ -4,6 +4,7 @@
 #include "Templates/SubclassOf.h"
 #include "GameFramework/PlayerController.h"
 #include "InputActionValue.h"
+#include "MinigolfPlayerState.h"
 #include "MinigolfPlayerController.generated.h"
 
 /** Forward declaration to improve compiling times */
@@ -48,4 +49,5 @@ protected:
 private:
     bool isHoldingLaunch = false;
     FVector2D mousePos;
+    AMinigolfPlayerState* playerState;
 };
