@@ -1,4 +1,5 @@
 #include "MinigolfPlayerController.h"
+#include "MinigolfPlayerState.h"
 #include "GameFramework/Pawn.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
 #include "NiagaraSystem.h"
@@ -48,9 +49,13 @@ void AMinigolfPlayerController::OnLaunchBallPressed()
 void AMinigolfPlayerController::OnLaunchBallReleased()
 {
     AGolfBallPawn *pawn = GetPawn<AGolfBallPawn>();
+    AMinigolfPlayerState* state = GetPlayerState<AMinigolfPlayerState>();
 
     if (pawn != nullptr)
         pawn->Launch(mousePos * 1000);
+
+    if (state != nullptr)
+        state->AddStroke();
 
     GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Launch Released!"));
 
