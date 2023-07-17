@@ -9,21 +9,23 @@
 UCLASS()
 class MINIGOLF_API AHoleActor : public AActor
 {
-	GENERATED_BODY()
-	
-public:	
-	// Sets default values for this actor's properties
-	AHoleActor();
+    GENERATED_BODY()
 
-	UFUNCTION(BlueprintCallable, category = "Trigger")
-		void BallEnter();
+public:
+    // Sets default values for this actor's properties
+    AHoleActor();
+
+    UFUNCTION(BlueprintCallable, category = "Trigger")
+    void BallEnter();
+
+    UPROPERTY(EditAnywhere)
+    FString LevelToLoad;
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+    // Called when the game starts or when spawned
+    virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
+public:
+    // Called every frame
+    virtual void Tick(float DeltaTime) override;
 };
